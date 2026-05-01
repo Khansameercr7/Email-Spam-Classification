@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Email Spam Classification Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        h1 { color: #2c3e50; text-align: center; }
+        h2 { color: #34495e; border-bottom: 2px solid #3498db; padding-bottom: 5px; }
+        h3 { color: #7f8c8d; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #3498db; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        code { background-color: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        pre { background-color: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+<h1>Email Spam Classification Project Report</h1>
+
+<hr />
+
+<h2>Personal Information</h2>
+
+<p>| Field | Details |
+|-------|---------|
+| <strong>Full Name</strong> | [Your Name] |
+| <strong>Internship Domain</strong> | Machine Learning |
+| <strong>Email Address</strong> | [Your Email] |
+| <strong>Phone Number</strong> | [Your Phone] |</p>
+
+<hr />
+
+<h2>1. Project Overview</h2>
+
+<h3>1.1 Introduction</h3>
+
+<p>This project implements a machine learning model to classify emails as spam or ham (not spam). The classifier achieves <strong>99.30% accuracy</strong> using Support Vector Machine (SVM) algorithm with TF-IDF feature extraction.</p>
+
+<h3>1.2 Objectives</h3>
+
+<ul>
+<li>Preprocess email text data (cleaning, stemming, stopword removal)</li>
+<li>Extract important features using TF-IDF vectorization</li>
+<li>Train multiple classification models</li>
+<li>Evaluate model performance with various metrics</li>
+<li>Deploy the model for real-time spam detection</li>
+</ul>
+
+<hr />
+
+<h2>2. Dataset Description</h2>
+
+<h3>2.1 Data Source</h3>
+
+<ul>
+<li><strong>File</strong>: <code>data/emails.csv</code></li>
+<li><strong>Total Records</strong>: 5,728 emails</li>
+<li><strong>Training Set</strong>: 4,582 samples (80%)</li>
+<li><strong>Test Set</strong>: 1,146 samples (20%)</li>
+</ul>
+
+<h3>2.2 Data Structure</h3>
+
+<p>| Column | Type | Description |
+|--------|------|-------------|
+| <code>text</code> | String | Email content (subject + body) |
+| <code>spam</code> | Integer | Label (1 = spam, 0 = ham) |</p>
+
+<h3>2.3 Class Distribution</h3>
+
+<ul>
+<li><strong>Ham (Not Spam)</strong>: 872 samples (76.1%)</li>
+<li><strong>Spam</strong>: 274 samples (23.9%)</li>
+</ul>
+
+<hr />
+
+<h2>3. Implementation</h2>
+
+<h3>3.1 Preprocessing Pipeline</h3>
+
+<p>Located in <a href="src/preprocess.py">src/preprocess.py</a>:</p>
+
+<p>```python</p>
+
+<h1>filepath: src/preprocess.py</h1>
+
+<p>def clean<em>text(text, lowercase=True, remove</em>punctuation=True, 
+               remove<em>stopwords=True, stemming=True, min</em>word_length=2):
+    """Clean and preprocess email text."""</p>
+
+<pre><code># Lowercase conversion
+if lowercase:
+    text = text.lower()
+
+# Remove URLs
+text = re.sub(r'http\S+|www\S+', '', text)
+
+# Remove email addresses
+text = re.sub(r'\S+@\S+', '', text)
+
+# Remove punctuation
+if remove_punctuation:
+    text = re.sub(r'[^\w\s]', '', text)
+
+# Remove stopwords
+if remove_stopwords:
+    text = ' '.join([w for w in text.split() 
+                   if w not in STOPWORDS])
+
+# Apply stemming
+if stemming:
+    text = ' '.join([stemmer.stem(w) for w in text.split()])
+
+# Filter short words
+if min_word_length:
+    text = ' '.join([w for w in text.split() 
+                   if len(w) &gt;= min_word_length])
+
+return text
+</code></pre>
+
+<p>```</p>
+
+<h3>3.2 Feature Engineering</h3>
+
+<p>Located in <a href="src/features.py">src/features.py</a>:</p>
+
+<p>```python</p>
+
+<h1>filepath: src/features.py</h1>
+
+<p>def build<em>vectorizer(method='tfidf', max</em>features=8000, 
+                     ngram<em>range=(1, 2), sublinear</em>tf=True):
+    """Build TF-IDF or Bag-of-Words vectorizer."""</p>
+
+<pre><code>if method == 'tfidf':
+    return TfidfVectorizer(
+        max_features=max_features,
+        ngram_range=ngram_range,
+        sublinear_tf=sublinear_tf
+    )
+else:
+    return CountVectorizer(
+        max_features=max_features,
+        ngram_range=ngram_range
+    )
+</code></pre>
+
+<p>```</p>
+
+<h3>3.3 Model Training</h3>
+
+<p>Located in <a href="src/train.py">src/train.py</a>:</p>
+
+<p>```python</p>
+
+<h1>filepath: src/train.py</h1>
+
+<p>def train_all(cfg):
+    """Train multiple classifiers and save the best model."""</p>
+
+<pre><code># Load and preprocess data
+raw = pd.read_csv(cfg["data"]["raw_path"])
+cleaned = preprocess_dataframe(raw, ...)
+
+# Split data
+X_train, X_test, y_train, y_test = split_data(...)
+
+# Vectorize
+vec = build_vectorizer(method='tfidf', ...)
+Xtr = fit_transform(vec, X_train)
+Xte = transform(vec, X_test)
+
+# Train models
+models = {
+    'MultinomialNB': MultinomialNB,
+    'LogisticRegression': LogisticRegression,
+    'LinearSVC': LinearSVC,
+    'RandomForestClassifier': RandomForestClassifier
+}
+
+# Evaluate and select best
+for name, model in models.items():
+    clf = model()
+    clf.fit(Xtr, y_train)
+    y_pred = clf.predict(Xte)
+    # ... calculate metrics
+</code></pre>
+
+<p>```</p>
+
+<h3>3.4 Prediction Module</h3>
+
+<p>Located in <a href="src/predict.py">src/predict.py</a>:</p>
+
+<p>```python</p>
+
+<h1>filepath: src/predict.py</h1>
+
+<p>class SpamPredictor:
+    """Wraps the saved vectoriser + classifier for easy inference."""</p>
+
+<pre><code>def __init__(self, config_path="config.yaml"):
+    cfg = yaml.safe_load(open(config_path))
+    self.vectorizer = joblib.load(cfg["paths"]["vectorizer_path"])
+    self.model = joblib.load(cfg["paths"]["model_path"])
+
+def predict(self, text):
+    """Predict whether email is spam or ham."""
+    cleaned = self._clean(text)
+    X = self.vectorizer.transform([cleaned])
+    prediction = self.model.predict(X)[0]
+    return "SPAM" if prediction == 1 else "HAM"
+</code></pre>
+
+<p>```</p>
+
+<hr />
+
+<h2>4. Configuration</h2>
+
+<h3>4.1 config.yaml</h3>
+
+<p>```yaml</p>
+
+<h1>filepath: config.yaml</h1>
+
+<p>data:
+  raw<em>path: data/emails.csv
+  train</em>path: data/train.csv
+  test<em>path: data/test.csv
+  text</em>column: text
+  label<em>column: spam
+  test</em>size: 0.2
+  random_state: 42</p>
+
+<p>preprocessing:
+  lowercase: true
+  remove<em>punctuation: true
+  remove</em>stopwords: true
+  stemming: true
+  min<em>word</em>length: 2</p>
+
+<p>features:
+  method: tfidf
+  max<em>features: 8000
+  ngram</em>range: [1, 2]
+  sublinear_tf: true</p>
+
+<p>models:
+  - name: naive<em>bayes
+    type: MultinomialNB
+    params:
+      alpha: 0.1
+  - name: svm
+    type: LinearSVC
+    params:
+      C: 1.0
+      max</em>iter: 2000</p>
+
+<p>training:
+  best<em>model: svm
+  scoring</em>metric: f1
+```</p>
+
+<hr />
+
+<h2>5. Results</h2>
+
+<h3>5.1 Model Comparison</h3>
+
+<p>| Model | Accuracy | Precision | Recall | F1 Score |
+|-------|----------|-----------|--------|----------|
+| Naive Bayes | 98.69% | 98.14% | 96.35% | 97.24% |
+| Logistic Regression | 98.78% | 98.87% | 95.99% | 97.41% |
+| <strong>SVM (Best)</strong> | <strong>99.30%</strong> | <strong>98.54%</strong> | <strong>98.54%</strong> | <strong>98.54%</strong> |
+| Random Forest | 98.78% | 96.76% | 98.18% | 97.46% |</p>
+
+<h3>5.2 Classification Report (Best Model)</h3>
+
+<p>```
+              precision    recall  f1-score   support</p>
+
+<pre><code>     Ham       0.99      1.00      0.99       872
+    Spam       0.99      0.96      0.97       274
+
+accuracy                           0.99      1146
+</code></pre>
+
+<p>macro avg       0.99      0.98      0.98      1146
+weighted avg       0.99      0.99      0.99      1146
+```</p>
+
+<h3>5.3 Test Results</h3>
+
+<p><code>
+======================================== 19 passed in 1.55s ========================================
+</code></p>
+
+<hr />
+
+<h2>6. Project Screenshots</h2>
+
+<h3>6.1 Training Output</h3>
+
+<p><img src="reports/console_training.png" alt="Training Output" /></p>
+
+<h3>6.2 Confusion Matrix</h3>
+
+<p><img src="reports/confusion_matrix.png" alt="Confusion Matrix" /></p>
+
+<h3>6.3 ROC Curve</h3>
+
+<p><img src="reports/roc_curve.png" alt="ROC Curve" /></p>
+
+<h3>6.4 Precision-Recall Curve</h3>
+
+<p><img src="reports/precision_recall_curve.png" alt="Precision-Recall Curve" /></p>
+
+<h3>6.5 Class Distribution</h3>
+
+<p><img src="reports/class_distribution.png" alt="Class Distribution" /></p>
+
+<h3>6.6 Top Features</h3>
+
+<p><img src="reports/top_features.png" alt="Top Features" /></p>
+
+<hr />
+
+<h2>7. Usage Instructions</h2>
+
+<h3>7.1 Running the Project</h3>
+
+<p>```bash</p>
+
+<h1>Install dependencies</h1>
+
+<p>pip install -r requirements.txt</p>
+
+<h1>Train the model</h1>
+
+<p>python src/train.py</p>
+
+<h1>Evaluate the model</h1>
+
+<p>python src/evaluate.py</p>
+
+<h1>Run tests</h1>
+
+<p>pytest tests/ -v
+```</p>
+
+<h3>7.2 Making Predictions</h3>
+
+<p>```python
+from src.predict import SpamPredictor</p>
+
+<h1>Initialize predictor</h1>
+
+<p>p = SpamPredictor()</p>
+
+<h1>Single prediction</h1>
+
+<p>result = p.predict("Congratulations! You won a free prize!")
+print(result)  # → "SPAM"</p>
+
+<h1>Batch prediction</h1>
+
+<p>results = p.predict_batch([
+    "Free money!",
+    "Hey, are we meeting tomorrow?"
+])
+print(results)  # → ["SPAM", "HAM"]
+```</p>
+
+<hr />
+
+<h2>8. Project Structure</h2>
+
+<p><code>
+email-spam-classifier/
+├── config.yaml          # Configuration file
+├── requirements.txt     # Python dependencies
+├── README.md            # Project documentation
+├── data/
+│   ├── emails.csv       # Raw dataset
+│   ├── train.csv        # Training data
+│   └── test.csv         # Test data
+├── src/
+│   ├── preprocess.py    # Text preprocessing
+│   ├── features.py      # Feature extraction
+│   ├── train.py         # Model training
+│   ├── evaluate.py      # Model evaluation
+│   └── predict.py       # Prediction module
+├── models/
+│   ├── spam_classifier.pkl   # Trained model
+│   └── vectorizer.pkl        # TF-IDF vectorizer
+├── reports/
+│   ├── confusion_matrix.png
+│   ├── roc_curve.png
+│   ├── precision_recall_curve.png
+│   ├── class_distribution.png
+│   └── top_features.png
+└── tests/
+    ├── test_predict.py
+    └── test_preprocess.py
+</code></p>
+
+<hr />
+
+<h2>9. Conclusion</h2>
+
+<p>This email spam classification project successfully demonstrates:
+- Complete ML pipeline from data preprocessing to model deployment
+- Multiple model comparison and selection
+- <strong>99.30% accuracy</strong> with SVM classifier
+- Comprehensive evaluation with confusion matrix, ROC curve, and precision-recall curves
+- Unit testing with 19 test cases passing</p>
+
+<p>The model is ready for production deployment and can be easily integrated into email systems for real-time spam detection.</p>
+
+<hr />
+
+<h2>10. References</h2>
+
+<ul>
+<li>Scikit-learn: Machine Learning in Python</li>
+<li>Pandas: Data Analysis and Manipulation</li>
+<li>NLTK: Natural Language Toolkit</li>
+<li>TF-IDF: Term Frequency-Inverse Document Frequency</li>
+</ul>
+
+<hr />
+
+<p><strong>Report Generated</strong>: May 2026
+<strong>Internship Period</strong>: [Your Period]
+<strong>Organization</strong>: Arch Technologies</p>
+
+</body>
+</html>
