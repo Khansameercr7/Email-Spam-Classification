@@ -1,6 +1,6 @@
 ## Email Spam Classifier
 
-Welcome! This project was created by Sameer Khan as part of a hands-on machine learning journey. The goal: build a real-world email spam detector from scratch, using a public dataset and open-source tools.
+Welcome! This project was created by Sameer  as part of a hands-on machine learning journey. The goal: build a real-world email spam detector from scratch, using a public dataset and open-source tools.
 
 ---
 
@@ -122,7 +122,7 @@ python src/predict.py "Congratulations! You have won a prize!"
 
 ## 👤 About the Author
 
-**Sameer Khan**  
+**Sameer**  
 Aspiring data scientist, passionate about real-world ML.  
 Email: khansameercr7@gmail.com
 
