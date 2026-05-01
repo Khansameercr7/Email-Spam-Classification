@@ -1,6 +1,4 @@
-predictor = SpamPredictor()
-
-# Email Spam Classifier
+## Email Spam Classifier
 
 Welcome! This project was created by Sameer Khan as part of a hands-on machine learning journey. The goal: build a real-world email spam detector from scratch, using a public dataset and open-source tools.
 
@@ -45,8 +43,8 @@ email-spam-classifier/
 │   ├── evaluate.py         # Model evaluation
 │   └── predict.py          # Prediction API
 └── tests/                  # Unit tests
-     ├── test_preprocess.py
-     └── test_predict.py
+    ├── test_preprocess.py
+    └── test_predict.py
 ```
 
 ---
@@ -54,21 +52,21 @@ email-spam-classifier/
 ## 🚀 How to Use
 
 1. **Install dependencies**
-    ```powershell
-    pip install -r requirements.txt
-    ```
+   ```powershell
+   pip install -r requirements.txt
+   ```
 2. **Train the models**
-    ```powershell
-    python src/train.py
-    ```
+   ```powershell
+   python src/train.py
+   ```
 3. **Run the web app**
-    ```powershell
-    streamlit run app.py
-    ```
+   ```powershell
+   streamlit run app.py
+   ```
 4. **Run tests**
-    ```powershell
-    pytest tests/ -v
-    ```
+   ```powershell
+   pytest tests/ -v
+   ```
 
 ---
 
@@ -145,3 +143,7 @@ _Add screenshots of the web app here for a personal touch!_
 - streamlit
 
 See `requirements.txt` for the full list.
+=======
+# Email-Spam-Classification
+This project implements a machine learning model to classify emails as spam or ham (not spam). The classifier achieves **99.30% accuracy** using Support Vector Machine (SVM) algorithm with TF-IDF feature extraction.
+>>>>>>> 1d770a57c7d608ad4d08defc25c6c9a6860a5744
