@@ -130,7 +130,10 @@ Email: khansameercr7@gmail.com
 
 ## 📷 Screenshots
 
-_Add screenshots of the web app here for a personal touch!_
+<img width="1794" height="949" alt="Screenshot 2026-05-06 014651" src="https://github.com/user-attachments/assets/949e42ff-670d-4fbf-b511-e6104a6e0c37" />
+<img width="1800" height="919" alt="Screenshot 2026-05-06 014812" src="https://github.com/user-attachments/assets/28a5433d-a2cf-49c9-b638-f0cd1e3ce7b9" />
+
+
 
 ---
 
