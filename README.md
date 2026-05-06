@@ -4,7 +4,7 @@ Welcome! This project was created by Sameer  as part of a hands-on machine learn
 
 ---
 
-## 📖 Project Story
+##  Project Story
 
 I wanted to understand how spam filters work under the hood, so I set out to:
 - Clean and preprocess messy email text
@@ -16,7 +16,7 @@ This repo is the result—a practical, end-to-end solution, not just a demo.
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 email-spam-classifier/
@@ -49,7 +49,7 @@ email-spam-classifier/
 
 ---
 
-## 🚀 How to Use
+##  How to Use
 
 1. **Install dependencies**
    ```powershell
@@ -86,7 +86,7 @@ All settings are in `config.yaml`—change models, features, or preprocessing in
 
 ---
 
-## 🖥️ Try It Out
+##  Try It Out
 
 **Web App:** Paste any email text and see if it’s spam or not.
 
@@ -112,7 +112,7 @@ python src/predict.py "Congratulations! You have won a prize!"
 
 ---
 
-## 📝 Limitations & Future Work
+##  Limitations & Future Work
 
 - Only English emails are supported
 - No deep learning (for simplicity)
@@ -120,7 +120,7 @@ python src/predict.py "Congratulations! You have won a prize!"
 
 ---
 
-## 👤 About the Author
+##  About the Author
 
 **Sameer**  
 Aspiring data scientist, passionate about real-world ML.  
@@ -128,7 +128,7 @@ Email: khansameercr7@gmail.com
 
 ---
 
-## 📷 Screenshots
+##  Screenshots
 
 <img width="1794" height="949" alt="Screenshot 2026-05-06 014651" src="https://github.com/user-attachments/assets/949e42ff-670d-4fbf-b511-e6104a6e0c37" />
 <img width="1800" height="919" alt="Screenshot 2026-05-06 014812" src="https://github.com/user-attachments/assets/28a5433d-a2cf-49c9-b638-f0cd1e3ce7b9" />
@@ -137,7 +137,7 @@ Email: khansameercr7@gmail.com
 
 ---
 
-## 🛠️ Requirements
+##  Requirements
 
 - Python 3.8+
 - scikit-learn
